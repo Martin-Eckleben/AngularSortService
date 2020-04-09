@@ -10,13 +10,14 @@ export class SortService {
 
   constructor() { }
 
-  public static CMP_GREATER_THAN = 1
-  public static CMP_LESS_THAN = -1
-  public static CMP_EQUAL = 0
+  private static CMP_GREATER_THAN = 1
+  private static CMP_LESS_THAN = -1
+  private static CMP_EQUAL = 0
+  
   public static DIR_ASC = 1
   public static DIR_DSC = 2
 
-  sortAsc(node1, node2, attr) {
+  private sortAsc(node1, node2, attr) {
     var attr1 = node1[attr]
     var attr2 = node2[attr]
 
@@ -28,7 +29,7 @@ export class SortService {
     return SortService.CMP_GREATER_THAN
   }
 
-  sortDsc(node1, node2, attr) {
+  private sortDsc(node1, node2, attr) {
     var attr1 = node1[attr]
     var attr2 = node2[attr]
 
@@ -40,7 +41,7 @@ export class SortService {
     return SortService.CMP_GREATER_THAN
   }
 
-  mergeSortObj(arr, attr, dir) {
+  public mergeSortObj(arr, attr, dir) {
     if (arr.length === 0) {
       return []
     }

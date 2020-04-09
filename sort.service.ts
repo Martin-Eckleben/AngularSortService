@@ -6,61 +6,48 @@ import { Injectable } from '@angular/core'
 export class SortService {
 
   // usage:
-  // array = this.sortservice.mergeSortObj(array, 'row_from', SortService.DIR_ASC)
+  // array = this.sortservice.mergeSortObj(array, 'row_from', 'desc'|'asc')
 
   constructor() { }
 
   private static CMP_GREATER_THAN = 1
   private static CMP_LESS_THAN = -1
   private static CMP_EQUAL = 0
-  
-  public static DIR_ASC = 1
-  public static DIR_DSC = 2
 
-  private sortAsc(node1, node2, attr) {
+  private compare(node1, node2, attr, dir):number {
     var attr1 = node1[attr]
     var attr2 = node2[attr]
 
-    if (attr1 < attr2) {
+    if(dir=='desc' && attr1 < attr2){
       return SortService.CMP_LESS_THAN
-    } else if (attr1 === attr2) {
+    }
+    else if(dir=='asc' && attr1 > attr2) {
+      return SortService.CMP_GREATER_THAN
+    }
+    else if(attr1 === attr2) {
       return SortService.CMP_EQUAL
     }
-    return SortService.CMP_GREATER_THAN
+
+    // not comparable -> error
+    console.error("Cant compare", attr1, " and ", attr2)
+    return SortService.CMP_EQUAL
   }
 
-  private sortDsc(node1, node2, attr) {
-    var attr1 = node1[attr]
-    var attr2 = node2[attr]
-
-    if (attr1 > attr2) {
-      return SortService.CMP_LESS_THAN
-    } else if (attr1 === attr2) {
-      return SortService.CMP_EQUAL
-    }
-    return SortService.CMP_GREATER_THAN
-  }
-
-  public mergeSortObj(arr, attr, dir) {
+  public mergeSortObj(arr=[], attr=null, dir:'desc'|'asc') {
     if (arr.length === 0) {
       return []
     }
 
-    if (typeof attr === 'undefined' || attr === null) {
-      return []
+    if (attr === null || dir === null) {
+      return null
     }
-
-    if (typeof dir === 'undefined' || dir === null) {
-      return []
-    }
-
-    var cmp = (dir === SortService.DIR_ASC) ? this.sortAsc : this.sortDsc
 
     var left = []
     var right = []
     var pivot = arr[0]
     for (var i = 1; i < arr.length; i++) {
-      if (cmp(arr[i], pivot, attr) === SortService.CMP_GREATER_THAN) {
+
+      if (this.compare(arr[i], pivot, attr, dir) === SortService.CMP_GREATER_THAN) {
         right.push(arr[i])
       } else {
         left.push(arr[i])

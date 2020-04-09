@@ -11,7 +11,7 @@ mergeSortObj(arr=[], attr=null, dir:'desc'|'asc'='desc', compareFunction?:(a,b)=
 ```
 
 # Usage
-Parameter dir is the sorting direction and is optional.
+Parameter dir is the sorting direction and is optional.  
 A compareFunction can be provided if the standard logical operators >, <, === dont suffice.
 
 # Examples

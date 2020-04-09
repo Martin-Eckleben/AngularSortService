@@ -1,10 +1,12 @@
 # AngularSortService
 
+**Sorting methods:**  
+(currently only one)  
 mergeSortObj(arr, attr, dir)
 
-example:  
+**Example:**  
 array = this.sortservice.mergeSortObj(array, 'row_from', SortService.DIR_ASC)
 
-dir:  
+**Directions:**  
 DIR_ASC  
 DIR_DSC

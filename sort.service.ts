@@ -14,26 +14,24 @@ export class SortService {
   private static CMP_LESS_THAN = -1
   private static CMP_EQUAL = 0
 
-  private compare(node1, node2, attr, dir):number {
-    var attr1 = node1[attr]
-    var attr2 = node2[attr]
+  private compare(a, b):number {
 
-    if(dir=='desc' && attr1 < attr2){
+    if(a < b){
       return SortService.CMP_LESS_THAN
     }
-    else if(dir=='asc' && attr1 > attr2) {
+    else if(a > b) {
       return SortService.CMP_GREATER_THAN
     }
-    else if(attr1 === attr2) {
+    else if(a === b) {
       return SortService.CMP_EQUAL
     }
 
     // not comparable -> error
-    console.error("Cant compare", attr1, " and ", attr2)
+    console.error("Cant compare", a, " and ", b)
     return SortService.CMP_EQUAL
   }
 
-  public mergeSortObj(arr=[], attr=null, dir:'desc'|'asc') {
+  public mergeSortObj(arr=[], attr=null, dir:'desc'|'asc'='desc', compareFunction?:(a,b)=>number) {
     if (arr.length === 0) {
       return []
     }
@@ -42,16 +40,25 @@ export class SortService {
       return null
     }
 
+    let cmp = typeof compareFunction != "undefined" ? compareFunction : this.compare 
+
     var left = []
     var right = []
     var pivot = arr[0]
     for (var i = 1; i < arr.length; i++) {
 
-      if (this.compare(arr[i], pivot, attr, dir) === SortService.CMP_GREATER_THAN) {
-        right.push(arr[i])
+      if (cmp(arr[i][attr], pivot[attr]) === SortService.CMP_GREATER_THAN) {
+        if(dir=='asc')
+          right.push(arr[i])
+        else
+          left.push(arr[i])
       } else {
-        left.push(arr[i])
+        if(dir=='asc')
+          left.push(arr[i])
+        else
+          right.push(arr[i])
       }
+
     }
     return this.mergeSortObj(left, attr, dir).concat(pivot, this.mergeSortObj(right, attr, dir))
   }

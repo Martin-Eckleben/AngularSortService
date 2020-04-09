@@ -1,5 +1,9 @@
 # AngularSortService
 
+**DISCLAIMER:**  
+Currently this is only a single not particularly well programmed method.  
+It compares by simple js logic operators: <, >.
+
 **Sorting methods:**  
 (currently only one)  
 mergeSortObj(arr, attr, dir)
